@@ -1,0 +1,18 @@
+{
+  "dependencies": {
+    "axios": "0.x",
+    "ejs": "3.x",
+    "express": "4.x",
+    "morgan": "1.x"
+  },
+  "devDependencies": {
+    "nodemon": "2.x"
+  },
+  "main": "index.js",
+  "name": "private",
+  "private": true,
+  "scripts": {
+    "dev": "nodemon"
+  },
+  "type": "module"
+}

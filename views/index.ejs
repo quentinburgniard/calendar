@@ -1,0 +1,16 @@
+BEGIN:VCALENDAR
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+PRODID:calendar.digitalleman.com
+VERSION:2.0
+X-PUBLISHED-TTL:PT1D
+<% events.forEach((event) => { -%>
+BEGIN:VEVENT
+DESCRIPTION:<%= event.attributes.description %>
+DTEND:<%= event.attributes.endDate.replace(/:|-|\.000/g, '') %>
+DTSTART:<%= event.attributes.startDate.replace(/:|-|\.000/g, '') %>
+SUMMARY:<%= event.attributes.title %>
+UID:<%= event.id %>@calendar.digitalleman.com
+END:VEVENT
+<% }); -%>
+END:VCALENDAR
