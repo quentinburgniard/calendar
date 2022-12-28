@@ -11,18 +11,16 @@ app.set('view engine', 'ejs');
 app.use(express.urlencoded({ extended: false }));
 app.use(morgan('tiny'));
 
-app.get('/', (req, res, next) => {
-  res.set({
-    'content-type': 'text/calendar'
-  });
-
-  let token = req.query.t || '';
+app.get('/:token.icv', (req, res, next) => {
   axios.get('https://api.digitalleman.com/v2/events', {
     headers: {
-      'authorization': `Bearer ${token}`
+      'authorization': `Bearer ${req.params.token}`
     }
   })
   .then((response) => {
+    res.set({
+      'content-type': 'text/calendar'
+    });
     res.render('index', {
       events: response.data.data
     });
