@@ -1,15 +1,20 @@
 BEGIN:VCALENDAR
 CALSCALE:GREGORIAN
 METHOD:PUBLISH
-PRODID:calendar.digitalleman.com
+PRODID:-//Digital Leman//Calendar//FR
 VERSION:2.0
 X-PUBLISHED-TTL:PT1D
 <% events.forEach((event) => { -%>
 BEGIN:VEVENT
+CLASS:PRIVATE
+CREATED;TZID=Europe/Berlin:<%= event.attributes.createdAt.replace(/:|-|\.\d{3}/g, '') %>
 DESCRIPTION:<%= event.attributes.description %>
-DTEND:<%= event.attributes.endDate.replace(/:|-|\.\d{3}/g, '') %>
-DTSTAMP:<%= event.attributes.createdAt.replace(/:|-|\.\d{3}/g, '') %>
-DTSTART:<%= event.attributes.startDate.replace(/:|-|\.\d{3}/g, '') %>
+DTEND;TZID=Europe/Berlin:<%= event.attributes.endDate.replace(/:|-|\.\d{3}/g, '') %>
+DTSTAMP;TZID=Europe/Berlin:<%= event.attributes.createdAt.replace(/:|-|\.\d{3}/g, '') %>
+DTSTART;TZID=Europe/Berlin:<%= event.attributes.startDate.replace(/:|-|\.\d{3}/g, '') %>
+LAST-MODIFIED;TZID=Europe/Berlin:<%= event.attributes.updatedAt.replace(/:|-|\.\d{3}/g, '') %>
+PRIORITY:3
+SEQUENCE:0
 SUMMARY:<%= event.attributes.title %>
 UID:<%= event.id %>@calendar.digitalleman.com
 END:VEVENT
