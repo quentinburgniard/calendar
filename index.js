@@ -21,7 +21,7 @@ app.get('/:token.ics', (req, res, next) => {
     res.set({
       'content-type': 'text/calendar'
     });
-    res.render('index', {
+    res.render('liverpool', {
       events: response.data.data
     });
   })
