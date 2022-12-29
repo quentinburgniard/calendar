@@ -7,9 +7,9 @@ X-PUBLISHED-TTL:PT1D
 <% events.forEach((event) => { -%>
 BEGIN:VEVENT
 DESCRIPTION:<%= event.attributes.description %>
-DTEND:<%= event.attributes.endDate.replace(/:|-|\.000/g, '') %>
-DTSTAMP:<%= event.attributes.createdAt.replace(/:|-|\.000/g, '') %>
-DTSTART:<%= event.attributes.startDate.replace(/:|-|\.000/g, '') %>
+DTEND:<%= event.attributes.endDate.replace(/:|-|\.\d{3}/g, '') %>
+DTSTAMP:<%= event.attributes.createdAt.replace(/:|-|\.\d{3}/g, '') %>
+DTSTART:<%= event.attributes.startDate.replace(/:|-|\.\d{3}/g, '') %>
 SUMMARY:<%= event.attributes.title %>
 UID:<%= event.id %>@calendar.digitalleman.com
 END:VEVENT
