@@ -21,7 +21,7 @@ app.get('/bda28174a0c5d13e671c.ics', (req, res, next) => {
     res.set({
       'content-type': 'text/calendar'
     });
-    res.render('liverpool', {
+    res.render('index', {
       events: response.data.data
     });
   })
