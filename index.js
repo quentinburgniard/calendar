@@ -11,10 +11,10 @@ app.set('view engine', 'ejs');
 app.use(express.urlencoded({ extended: false }));
 app.use(morgan('tiny'));
 
-app.get('/:token.ics', (req, res, next) => {
+app.get('/bda28174a0c5d13e671c.ics', (req, res, next) => {
   axios.get('https://api.digitalleman.com/v2/events', {
     headers: {
-      'authorization': `Bearer ${req.params.token}`
+      'authorization': `Bearer ${process.env.TOKEN}`
     }
   })
   .then((response) => {
