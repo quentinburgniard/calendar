@@ -17,13 +17,15 @@
       <% }); %>
     </tbody>
   </table>
+  <% if (events.length) { %>
   <script>
-    document.getElementById('events').scrollTop = document.getElementById('<%= `event-${events.length ? events[events.length - 1].id : 0}` %>').closest('tr').offsetTop;
+    document.getElementById('events').scrollTop = document.getElementById('<%= `event-${events[events.length - 1].id}` %>').closest('tr').offsetTop;
   </script>
+  <% } %>
 </div>
 <div class="align-items-center h-50 justify-content-center row" style="box-shadow: 0 -16px 16px rgba(0, 0, 0, 0.15)">
   <div class="col-8">
-    <form method="post">
+    <form action="/chataigniers" method="post">
       <h1><%= `${nextDay.toLocaleString('fr', { weekday: 'long' })} ${nextDay.toLocaleString('fr', { day: 'numeric' })} ${nextDay.toLocaleString('fr', { month: 'long' })}` %></h1>
       <input type="hidden" name="date" value="<%= nextDay.toISOString() %>">
       <button class="btn btn-block btn-outline-dark my-1 w-100" name="value" type="submit" value="green-5">5 Vert</button>
