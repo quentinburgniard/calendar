@@ -57,7 +57,7 @@ app.get('/chataigniers', (req, res) => {
   startDate.setHours(0, 0, 0, 0);
 
   let endDate = new Date();
-  endDate.setMonth(endDate.getMonth() + 2, 0);
+  endDate.setMonth(endDate.getMonth() + 3, 0);
   endDate.setHours(23, 59, 59, 999);
 
   let params = {
@@ -93,6 +93,7 @@ app.get('/chataigniers', (req, res) => {
     res.render('chataigniers', {
       added: req.query.added || null,
       days: getDays(startDate, endDate),
+      endDate: endDate,
       nextDay: nextDay,
       events: events
     });

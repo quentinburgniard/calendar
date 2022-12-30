@@ -28,12 +28,12 @@
     <form action="/chataigniers" method="post">
       <h1><%= `${nextDay.toLocaleString('fr', { weekday: 'long' })} ${nextDay.toLocaleString('fr', { day: 'numeric' })} ${nextDay.toLocaleString('fr', { month: 'long' })}` %></h1>
       <input type="hidden" name="date" value="<%= nextDay.toISOString() %>">
-      <button class="btn btn-block btn-outline-dark my-1 w-100" name="value" type="submit" value="green-5">5 Vert</button>
-      <button class="btn btn-block btn-outline-dark my-1 w-100" name="value" type="submit" value="blue-7">7 Bleu</button>
-      <button class="btn btn-block btn-outline-dark my-1 w-100" name="value" type="submit" value="red-7">7 Rouge</button>
-      <button class="btn btn-block btn-outline-dark my-1 w-100" name="value" type="submit" value="red-f">F Rouge</button>
-      <button class="btn btn-block btn-outline-dark my-1 w-100" name="value" type="submit" value="butterfly">Papillon</button>
-      <button class="btn btn-outline-dark my-1 w-100" name="value" type="submit" value="rh">RH</button>
+      <button class="btn btn-outline-dark my-1 w-100" <% if (nextDay > endDate) { %> disabled <% } %> name="value" onclick="this.form.submit(); this.disabled = true;" type="submit" value="green-5">5 Vert</button>
+      <button class="btn btn-outline-dark my-1 w-100" <% if (nextDay > endDate) { %> disabled <% } %> name="value" onclick="this.form.submit(); this.disabled = true;" type="submit" value="blue-7">7 Bleu</button>
+      <button class="btn btn-outline-dark my-1 w-100" <% if (nextDay > endDate) { %> disabled <% } %> name="value" onclick="this.form.submit(); this.disabled = true;" type="submit" value="red-7">7 Rouge</button>
+      <button class="btn btn-outline-dark my-1 w-100" <% if (nextDay > endDate) { %> disabled <% } %> name="value" onclick="this.form.submit(); this.disabled = true;" type="submit" value="red-f">F Rouge</button>
+      <button class="btn btn-outline-dark my-1 w-100" <% if (nextDay > endDate) { %> disabled <% } %> name="value" onclick="this.form.submit(); this.disabled = true;" type="submit" value="butterfly">Papillon</button>
+      <button class="btn btn-outline-dark my-1 w-100" <% if (nextDay > endDate) { %> disabled <% } %> name="value" onclick="this.form.submit(); this.disabled = true;" type="submit" value="rh">RH</button>
     </form>
   </div>
 </div>
