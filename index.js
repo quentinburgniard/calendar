@@ -41,7 +41,7 @@ app.get('/bda28174a0c5d13e671c.ics', (req, res, next) => {
     res.set({
       'content-type': 'text/calendar'
     });
-    res.render('index', {
+    res.render('ics', {
       events: response.data.data
     });
   })
