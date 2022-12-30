@@ -7,7 +7,7 @@ X-PUBLISHED-TTL:PT1D
 <% events.forEach((event) => { -%>
 BEGIN:VEVENT
 CREATED:<%= event.attributes.createdAt.replace(/:|-|\.\d{3}/g, '') %>
-DESCRIPTION:<%= event.attributes.description %>
+DESCRIPTION:Horaire "<%= event.attributes.description %>"\nPour mettre à jour votre planning Les Châtaigniers, rendez-vous sur calendar.digitalleman.com/chataigniers
 DTEND:<%= event.attributes.endDate.replace(/:|-|\.\d{3}/g, '') %>
 DTSTAMP:<%= event.attributes.createdAt.replace(/:|-|\.\d{3}/g, '') %>
 DTSTART:<%= event.attributes.startDate.replace(/:|-|\.\d{3}/g, '') %>
