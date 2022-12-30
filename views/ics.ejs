@@ -6,7 +6,6 @@ VERSION:2.0
 X-PUBLISHED-TTL:PT1D
 <% events.forEach((event) => { -%>
 BEGIN:VEVENT
-CLASS:PRIVATE
 CREATED:<%= event.attributes.createdAt.replace(/:|-|\.\d{3}/g, '') %>
 DESCRIPTION:<%= event.attributes.description %>
 DTEND:<%= event.attributes.endDate.replace(/:|-|\.\d{3}/g, '') %>
