@@ -1,0 +1,35 @@
+<div class="h-50 overflow-auto row" id="events">
+  <table class="table table-striped">
+    <tbody>
+      <% days.forEach((day) => { %>
+      <tr>
+        <td><%= `${day.toLocaleString('fr', { weekday: 'long' })} ${day.toLocaleString('fr', { day: 'numeric' })} ${day.toLocaleString('fr', { month: 'long' })}` %></td>
+        <td>
+        <% let endDate = new Date(day);
+        endDate.setHours(23, 59, 59, 999);
+        events.filter(event => event.attributes.startDate >= day && event.attributes.endDate <= endDate).forEach((event) => { %>
+          <span id="<%= `event-${event.id}` %>"><%= `${event.attributes.startDate.toLocaleString('fr', { timeStyle: 'short' })} - ${event.attributes.endDate.toLocaleString('fr', { timeStyle: 'short' })}` %></span>
+        <% }); %>
+        </td>
+      </tr>
+      <% }); %>
+    </tbody>
+  </table>
+  <script>
+    document.getElementById('events').scrollTop = document.getElementById('<%= `event-${events.length ? events[events.length - 1].id : 0}` %>').closest('tr').offsetTop;
+  </script>
+</div>
+<div class="align-items-center h-50 justify-content-center row" style="box-shadow: 0 -16px 16px rgba(0, 0, 0, 0.15)">
+  <div class="col-8">
+    <form method="post">
+      <h1><%= `${nextDay.toLocaleString('fr', { weekday: 'long' })} ${nextDay.toLocaleString('fr', { day: 'numeric' })} ${nextDay.toLocaleString('fr', { month: 'long' })}` %></h1>
+      <input type="hidden" name="date" value="<%= nextDay.toISOString() %>">
+      <button class="btn btn-block btn-outline-dark my-1 w-100" name="value" type="submit" value="green-5">5 Vert</button>
+      <button class="btn btn-block btn-outline-dark my-1 w-100" name="value" type="submit" value="blue-7">7 Bleu</button>
+      <button class="btn btn-block btn-outline-dark my-1 w-100" name="value" type="submit" value="red-7">7 Rouge</button>
+      <button class="btn btn-block btn-outline-dark my-1 w-100" name="value" type="submit" value="red-f">F Rouge</button>
+      <button class="btn btn-block btn-outline-dark my-1 w-100" name="value" type="submit" value="butterfly">Papillon</button>
+      <button class="btn btn-outline-dark my-1 w-100" name="value" type="submit" value="rh">RH</button>
+    </form>
+  </div>
+</div>
