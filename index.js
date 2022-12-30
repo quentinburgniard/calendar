@@ -83,10 +83,15 @@ app.get('/chataigniers', (req, res) => {
       event.attributes.startDate = new Date(event.attributes.startDate);
       return event;
     });
-    let nextDay = events.length ? new Date(events[events.length - 1].attributes.startDate) : startDate;
-    nextDay.setDate(nextDay.getDate() + 1);
-    nextDay.setHours(0, 0, 0, 0)
+    let nextDay = startDate;
+    if (events.length) {
+      nextDay = new Date(events[events.length - 1].attributes.startDate);
+      nextDay.setDate(nextDay.getDate() + 1);
+      nextDay.setHours(0, 0, 0, 0)
+    } 
+
     res.render('chataigniers', {
+      added: req.query.added || null,
       days: getDays(startDate, endDate),
       nextDay: nextDay,
       events: events
@@ -128,7 +133,7 @@ app.post('/chataigniers', (req, res, next) => {
     case 'red-f':
       startDate.setHours(0, 0, 0, 0);
       endDate.setHours(0, 0, 0, 0);
-      event.description = 'F Rouge';
+      event.description = 'Férié';
       event.title = 'Férié';
       break;
     case 'butterfly':
@@ -139,7 +144,7 @@ app.post('/chataigniers', (req, res, next) => {
     case 'rh':
       startDate.setHours(0, 0, 0, 0);
       endDate.setHours(0, 0, 0, 0);
-      event.description = 'RH';
+      event.description = 'Congé';
       event.title = 'Congé';
       break;
   }
@@ -151,8 +156,8 @@ app.post('/chataigniers', (req, res, next) => {
       'authorization': `Bearer ${req.token}`
     }
   })
-  .then(() => {
-    res.redirect('/chataigniers');
+  .then((response) => {
+    res.redirect(`/chataigniers?added=${response.data.data.id}`);
   })
   .catch((error) => {
     if ([401, 403].includes(error.response.status)) {

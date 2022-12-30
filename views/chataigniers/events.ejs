@@ -8,7 +8,9 @@
         <% let endDate = new Date(day);
         endDate.setHours(23, 59, 59, 999);
         events.filter(event => event.attributes.startDate >= day && event.attributes.endDate <= endDate).forEach((event) => { %>
+          <b><%= event.attributes.description %></b>
           <span id="<%= `event-${event.id}` %>"><%= `${event.attributes.startDate.toLocaleString('fr', { timeStyle: 'short' })} - ${event.attributes.endDate.toLocaleString('fr', { timeStyle: 'short' })}` %></span>
+          <% if (event.id == added) { %> <span class="badge rounded-pill text-bg-success">Ajouté</span> <% } %>
         <% }); %>
         </td>
       </tr>
