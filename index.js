@@ -135,7 +135,7 @@ app.post('/chataigniers', (req, res, next) => {
       startDate.setHours(0, 0, 0, 0);
       endDate.setHours(0, 0, 0, 0);
       event.description = 'Férié';
-      event.title = 'Férié';
+      event.title = `Férié (${event.title})`;
       break;
     case 'butterfly':
       startDate.setHours(6, 30, 0, 0);
@@ -146,7 +146,7 @@ app.post('/chataigniers', (req, res, next) => {
       startDate.setHours(0, 0, 0, 0);
       endDate.setHours(0, 0, 0, 0);
       event.description = 'Congé';
-      event.title = 'Congé';
+      event.title = `Congé (${event.title})`;
       break;
   }
   event.endDate = endDate;

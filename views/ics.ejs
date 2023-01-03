@@ -8,9 +8,14 @@ X-PUBLISHED-TTL:PT1D
 BEGIN:VEVENT
 CREATED:<%= event.attributes.createdAt.replace(/:|-|\.\d{3}/g, '') %>
 DESCRIPTION:Horaire "<%= event.attributes.description %>"\nPour mettre à jour votre planning Les Châtaigniers, rendez-vous sur calendar.digitalleman.com/chataigniers
-DTEND:<%= event.attributes.endDate.replace(/:|-|\.\d{3}/g, '') %>
 DTSTAMP:<%= event.attributes.createdAt.replace(/:|-|\.\d{3}/g, '') %>
+<% if((event.attributes.startDate == event.attributes.endDate) => { -%>
 DTSTART:<%= event.attributes.startDate.replace(/:|-|\.\d{3}/g, '') %>
+DTEND:<%= event.attributes.endDate.replace(/:|-|\.\d{3}/g, '') %>
+<% } else { -%>
+DTSTART:<%= event.attributes.startDate.replace(/:|-|\.\d{3}/g, '') %>
+DTEND:<%= event.attributes.endDate.replace(/:|-|\.\d{3}/g, '') %>
+<% } -%>
 LAST-MODIFIED:<%= event.attributes.updatedAt.replace(/:|-|\.\d{3}/g, '') %>
 PRIORITY:3
 SEQUENCE:0
