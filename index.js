@@ -41,8 +41,16 @@ app.get('/bda28174a0c5d13e671c.ics', (req, res, next) => {
     res.set({
       'content-type': 'text/calendar'
     });
+    let events = response.data.data.map((event) => {
+      event.date = {
+        endDate: new Date(event.attributes.endDate),
+        startDate: new Date(event.attributes.startDate)
+      }
+      return event;
+    });
+
     res.render('ics', {
-      events: response.data.data
+      events: events
     });
   })
   .catch((error) => {
@@ -78,6 +86,7 @@ app.get('/chataigniers', (req, res) => {
     }
   })
   .then((response) => {
+    let days = getDays(startDate, endDate);
     let events = response.data.data.map((event) => {
       event.attributes.endDate = new Date(event.attributes.endDate);
       event.attributes.startDate = new Date(event.attributes.startDate);
@@ -85,14 +94,22 @@ app.get('/chataigniers', (req, res) => {
     });
     let nextDay = startDate;
     if (events.length) {
-      nextDay = new Date(events[events.length - 1].attributes.startDate);
-      nextDay.setDate(nextDay.getDate() + 1);
-      nextDay.setHours(0, 0, 0, 0)
+      let found = days.find((day) => {
+        let dayEnd = new Date(day);
+        dayEnd.setHours(23, 59, 59, 999);
+        return events.filter(event => event.attributes.startDate >= day && event.attributes.endDate <= dayEnd).length == 0;
+      });
+      if (found) {
+        nextDay = new Date(found);
+      } else {
+        nextDay = new Date(events[events.length - 1].attributes.startDate);
+        nextDay.setDate(nextDay.getDate() + 1);
+      }
     } 
 
     res.render('chataigniers', {
       added: req.query.added || null,
-      days: getDays(startDate, endDate),
+      days: days,
       endDate: endDate,
       nextDay: nextDay,
       events: events
@@ -108,7 +125,7 @@ app.get('/chataigniers', (req, res) => {
   });
 });
 
-app.post('/chataigniers', (req, res, next) => {
+app.post('/chataigniers', (req, res) => {
   let endDate = new Date(req.body.date);
   let event = {
     title: 'Les Châtaigniers'

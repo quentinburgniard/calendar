@@ -9,9 +9,9 @@ BEGIN:VEVENT
 CREATED:<%= event.attributes.createdAt.replace(/:|-|\.\d{3}/g, '') %>
 DESCRIPTION:Horaire "<%= event.attributes.description %>"\nPour mettre à jour votre planning Les Châtaigniers, rendez-vous sur calendar.digitalleman.com/chataigniers
 DTSTAMP:<%= event.attributes.createdAt.replace(/:|-|\.\d{3}/g, '') %>
-<% if((event.attributes.startDate == event.attributes.endDate) => { -%>
-DTSTART:<%= event.attributes.startDate.replace(/:|-|\.\d{3}/g, '') %>
-DTEND:<%= event.attributes.endDate.replace(/:|-|\.\d{3}/g, '') %>
+<% if (event.attributes.startDate == event.attributes.endDate) { -%>
+DTSTART;VALUE=DATE:<%= `${event.date.startDate.toLocaleDateString('fr', { year: 'numeric' })}${event.date.startDate.toLocaleDateString('fr', { month: '2-digit' })}${event.date.startDate.toLocaleDateString('fr', { day: '2-digit' })}` %>
+DTEND;VALUE=DATE:<%= `${event.date.startDate.toLocaleDateString('fr', { year: 'numeric' })}${event.date.startDate.toLocaleDateString('fr', { month: '2-digit' })}${event.date.startDate.toLocaleDateString('fr', { day: '2-digit' })}` %>
 <% } else { -%>
 DTSTART:<%= event.attributes.startDate.replace(/:|-|\.\d{3}/g, '') %>
 DTEND:<%= event.attributes.endDate.replace(/:|-|\.\d{3}/g, '') %>
