@@ -1,5 +1,6 @@
 import axios from 'axios';
 import cookieParser from 'cookie-parser';
+import crypto from 'crypto';
 import express from 'express';
 import morgan from 'morgan';
 import qs from 'qs';
@@ -46,6 +47,7 @@ app.get('/bda28174a0c5d13e671c.ics', (req, res, next) => {
         endDate: new Date(event.attributes.endDate),
         startDate: new Date(event.attributes.startDate)
       }
+      event.id = crypto.createHash('md5').update(`${event.id}${event.attributes.updatedAt}`).digest("hex");
       return event;
     });
 
