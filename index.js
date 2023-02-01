@@ -120,7 +120,7 @@ app.get('/chataigniers', (req, res) => {
   .catch((error) => {
     console.log(error);
     if ([401, 403].includes(error.response.status)) {
-      res.redirect(307, 'https://id.digitalleman.com?r=calendar.digitalleman.com%2Fchataigniers')
+      res.redirect('https://id.digitalleman.com?r=calendar.digitalleman.com%2Fchataigniers')
     }
     res.status(error.response.status);
     res.send();
@@ -177,11 +177,11 @@ app.post('/chataigniers', (req, res) => {
     }
   })
   .then((response) => {
-    res.redirect(307, `/chataigniers?added=${response.data.data.id}`);
+    res.redirect(303, `/chataigniers?added=${response.data.data.id}`);
   })
   .catch((error) => {
     if ([401, 403].includes(error.response.status)) {
-      res.redirect(307, 'https://id.digitalleman.com?r=calendar.digitalleman.com%2Fchataigniers')
+      res.redirect('https://id.digitalleman.com?r=calendar.digitalleman.com%2Fchataigniers')
     }
     res.status(error.response.status);
     res.send();
