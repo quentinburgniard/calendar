@@ -32,8 +32,18 @@ app.use((req, res, next) => {
   next();
 });
 
-app.get('/bda28174a0c5d13e671c.ics', (req, res, next) => {
-  axios.get('https://api.digitalleman.com/v2/events', {
+app.get('/bda28174a0c5d13e671c.ics', (req, res) => {
+  const params = {
+    filters: {
+      user: 2
+    },
+    pagination: {
+      limit: -1
+    },
+    sort: 'startDate'
+  }
+
+  axios.get('https://api.digitalleman.com/v2/events?' + qs.stringify(params), {
     headers: {
       'authorization': `Bearer ${process.env.TOKEN}`
     }
@@ -70,7 +80,7 @@ app.get('/chataigniers', (req, res) => {
   endDate.setMonth(endDate.getMonth() + 3, 0);
   endDate.setHours(23, 59, 59, 999);
 
-  let params = {
+  const params = {
     filters: {
       startDate: {
         $gte: startDate.toISOString(),
@@ -193,7 +203,7 @@ app.use((req, res) => {
   res.send();
 });
 
-app.use((err, req, res) => {
+app.use((err, req, res, next) => {
   res.status(500);
   res.send();
 });
