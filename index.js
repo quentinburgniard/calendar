@@ -89,6 +89,9 @@ app.get('/chataigniers', (req, res) => {
         $lte: endDate.toISOString(),
       }
     },
+    pagination: {
+      limit: -1
+    },
     sort: 'startDate'
   }
 
