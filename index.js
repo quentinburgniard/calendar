@@ -71,6 +71,10 @@ app.get('/bda28174a0c5d13e671c.ics', (req, res) => {
   });
 });
 
+app.delete('/chataigniers/:id', (req, res) => {
+  res.send();
+});
+
 app.get('/chataigniers', (req, res) => {
   let startDate = new Date();
   startDate.setMonth(startDate.getMonth() - 1, 1);
@@ -122,7 +126,75 @@ app.get('/chataigniers', (req, res) => {
       }
     } 
 
-    res.render('chataigniers', {
+    res.render('chataigniers/events', {
+      added: req.query.added || null,
+      days: days,
+      endDate: endDate,
+      nextDay: nextDay,
+      events: events
+    });
+  })
+  .catch((error) => {
+    if ([401, 403].includes(error.response.status)) {
+      res.redirect('https://id.digitalleman.com?r=calendar.digitalleman.com%2Fchataigniers')
+    }
+    res.status(error.response.status);
+    res.send();
+  });
+});
+
+app.get('/chataigniers/new', (req, res) => {
+  let startDate = new Date();
+  startDate.setMonth(startDate.getMonth() - 1, 1);
+  startDate.setHours(0, 0, 0, 0);
+
+  let endDate = new Date();
+  endDate.setMonth(endDate.getMonth() + 3, 0);
+  endDate.setHours(23, 59, 59, 999);
+
+  const params = {
+    filters: {
+      startDate: {
+        $gte: startDate.toISOString(),
+      },
+      endDate: {
+        $lte: endDate.toISOString(),
+      }
+    },
+    pagination: {
+      limit: -1
+    },
+    sort: 'startDate'
+  }
+
+  axios.get('https://api.digitalleman.com/v2/events?' + qs.stringify(params), {
+    headers: {
+      'authorization': `Bearer ${req.token}`
+    }
+  })
+  .then((response) => {
+    let days = getDays(startDate, endDate);
+    let events = response.data.data.map((event) => {
+      event.attributes.endDate = new Date(event.attributes.endDate);
+      event.attributes.startDate = new Date(event.attributes.startDate);
+      return event;
+    });
+    let nextDay = startDate;
+    if (events.length) {
+      let found = days.find((day) => {
+        let dayEnd = new Date(day);
+        dayEnd.setHours(23, 59, 59, 999);
+        return events.filter(event => event.attributes.startDate >= day && event.attributes.endDate <= dayEnd).length == 0;
+      });
+      if (found) {
+        nextDay = new Date(found);
+      } else {
+        nextDay = new Date(events[events.length - 1].attributes.startDate);
+        nextDay.setDate(nextDay.getDate() + 1);
+      }
+    } 
+
+    res.render('chataigniers/new', {
       added: req.query.added || null,
       days: days,
       endDate: endDate,
@@ -190,7 +262,7 @@ app.post('/chataigniers', (req, res) => {
     }
   })
   .then((response) => {
-    res.redirect(303, `/chataigniers?added=${response.data.data.id}`);
+    res.redirect(303, `/chataigniers/new`);
   })
   .catch((error) => {
     if ([401, 403].includes(error.response.status)) {

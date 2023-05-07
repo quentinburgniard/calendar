@@ -1,39 +1,57 @@
-<div class="h-50 overflow-auto row" id="events">
-  <table class="table table-striped">
-    <tbody>
-      <% days.forEach((day) => { %>
-      <tr id="<%= `day-${day.toLocaleDateString('fr', { year: 'numeric' })}-${day.toLocaleDateString('fr', { month: '2-digit' })}-${day.toLocaleDateString('fr', { day: '2-digit' })}` %>">
-        <td><%= `${day.toLocaleDateString('fr', { weekday: 'long' })} ${day.toLocaleDateString('fr', { day: 'numeric' })} ${day.toLocaleDateString('fr', { month: 'long' })}` %></td>
-        <td>
-        <% let dayEnd = new Date(day);
-        dayEnd.setHours(23, 59, 59, 999);
-        events.filter(event => event.attributes.startDate >= day && event.attributes.endDate <= dayEnd).forEach((event) => { %>
-          <b><%= event.attributes.description %></b>
-          <span id="<%= `event-${event.id}` %>"><%= `${event.attributes.startDate.toLocaleString('fr', { timeStyle: 'short' })} - ${event.attributes.endDate.toLocaleString('fr', { timeStyle: 'short' })}` %></span>
-          <% if (event.id == added) { %> <span class="badge rounded-pill text-bg-success">Ajouté</span> <% } %>
-        <% }); %>
-        </td>
-      </tr>
-      <% }); %>
-    </tbody>
-  </table>
-  <% if (events.length) { %>
-  <script>
-    document.getElementById('events').scrollTop = document.getElementById("<%= `day-${nextDay.toLocaleDateString('fr', { year: 'numeric' })}-${nextDay.toLocaleDateString('fr', { month: '2-digit' })}-${nextDay.toLocaleDateString('fr', { day: '2-digit' })}` %>").offsetTop;
-  </script>
-  <% } %>
-</div>
-<div class="align-items-center h-50 justify-content-center row" style="box-shadow: 0 -16px 16px rgba(0, 0, 0, 0.15)">
-  <div class="col-8">
-    <form action="/chataigniers" method="post" onsubmit="this.onsubmit = () => false;">
-      <h1><%= `${nextDay.toLocaleString('fr', { weekday: 'long' })} ${nextDay.toLocaleString('fr', { day: 'numeric' })} ${nextDay.toLocaleString('fr', { month: 'long' })}` %></h1>
-      <input type="hidden" name="date" value="<%= nextDay.toISOString() %>">
-      <button class="btn btn-outline-dark my-1 w-100" <% if (nextDay > endDate) { %> disabled <% } %> name="value" type="submit" value="green-5">5 Vert</button>
-      <button class="btn btn-outline-dark my-1 w-100" <% if (nextDay > endDate) { %> disabled <% } %> name="value" type="submit" value="blue-7">7 Bleu</button>
-      <button class="btn btn-outline-dark my-1 w-100" <% if (nextDay > endDate) { %> disabled <% } %> name="value" type="submit" value="red-7">7 Rouge</button>
-      <button class="btn btn-outline-dark my-1 w-100" <% if (nextDay > endDate) { %> disabled <% } %> name="value" type="submit" value="red-f">F Rouge</button>
-      <button class="btn btn-outline-dark my-1 w-100" <% if (nextDay > endDate) { %> disabled <% } %> name="value" type="submit" value="butterfly">Papillon</button>
-      <button class="btn btn-outline-dark my-1 w-100" <% if (nextDay > endDate) { %> disabled <% } %> name="value" type="submit" value="rh">RH</button>
-    </form>
+<%- include('header'); %>
+<form class="ds-form">
+  <div class="row">
+    <% days.forEach((day) => { %>
+      <div class="col-12">
+        <div class="_ds-form select">
+          <label for="<%= `day-${day.toLocaleDateString('fr', { year: 'numeric' })}-${day.toLocaleDateString('fr', { month: '2-digit' })}-${day.toLocaleDateString('fr', { day: '2-digit' })}` %>"><%= `${day.toLocaleDateString('fr', { weekday: 'long' })} ${day.toLocaleDateString('fr', { day: 'numeric' })} ${day.toLocaleDateString('fr', { month: 'long' })}` %></label>
+          <button class="z-index-medium" id="<%= `day-${day.toLocaleDateString('fr', { year: 'numeric' })}-${day.toLocaleDateString('fr', { month: '2-digit' })}-${day.toLocaleDateString('fr', { day: '2-digit' })}` %>" type="button">
+            <div class="_ds-link caption-icon">
+              <i class="bi bi-calendar4"></i>
+            </div>
+            <div class="_ds-link body">
+              <div class="_ds-link title">
+                <% let endOfDay = new Date(day);
+                endOfDay.setHours(23, 59, 59, 999);
+                let event = events.find(event => event.attributes.startDate >= day && event.attributes.endDate <= endOfDay);
+                if (event) { %>
+                  <b><%= event.attributes.description %></b>
+                  <span id="<%= `event-${event.id}` %>"><%= `${event.attributes.startDate.toLocaleString('fr', { timeStyle: 'short' })} - ${event.attributes.endDate.toLocaleString('fr', { timeStyle: 'short' })}` %></span>
+                  <% if (event.id == added) { %> <span class="badge rounded-pill text-bg-success">Ajouté</span> <% } %>
+                <% } else { %>
+                  <span>Sélectionner planning</span>
+                <% }; %>
+              </div>
+            </div>
+            <div class="_ds-link action-icon">
+              <i class="bi bi-chevron-down"></i>
+            </div>
+          </button>
+          <ul class="z-index-medium">
+            <li data-value="green-5">5 Vert</li>
+            <li data-value="blue-7">7 Bleu</li>
+            <li data-value="red-7">7 Rouge</li>
+            <li data-value="red-f">F Rouge</li>
+            <li data-value="butterfly">Papillon</li>
+            <li data-value="rh">RH</li>
+          </ul>
+          <select name="<%= `day-${day.toLocaleDateString('fr', { year: 'numeric' })}-${day.toLocaleDateString('fr', { month: '2-digit' })}-${day.toLocaleDateString('fr', { day: '2-digit' })}` %>" type="select">
+            <option value=""></option>
+            <option value="green-5" <%= event && event.attributes.description == '5 Vert' ? 'selected' : '' %>>5 Vert</option>
+            <option value="blue-7" <%= event && event.attributes.description == '7 Bleu' ? 'selected' : '' %>>7 Bleu</option>
+            <option value="red-7" <%= event && event.attributes.description == '7 Rouge' ? 'selected' : '' %>>7 Rouge</option>
+            <option value="red-f" <%= event && event.attributes.description == 'F Rouge' ? 'selected' : '' %>>F Rouge</option>
+            <option value="butterfly" <%= event && event.attributes.description == 'Papillon' ? 'selected' : '' %>>Papillon</option>
+            <option value="rh" <%= event && event.attributes.description == 'RH' ? 'selected' : '' %>>RH</option>
+          </select>
+        </div>
+      </div>
+    <% }); %>
   </div>
-</div>
+</form>
+<% if (events.length) { %>
+  <script>
+    //document.scrollTop = document.getElementById("<%= `day-${nextDay.toLocaleDateString('fr', { year: 'numeric' })}-${nextDay.toLocaleDateString('fr', { month: '2-digit' })}-${nextDay.toLocaleDateString('fr', { day: '2-digit' })}` %>").offsetTop;
+  </script>
+<% } %>
+<%- include('footer'); %>
