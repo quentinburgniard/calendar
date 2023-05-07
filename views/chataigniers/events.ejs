@@ -1,20 +1,20 @@
 <%- include('header'); %>
 <form class="ds-form">
   <div class="row">
-    <% days.forEach((day) => { %>
+    <% days.forEach((day) => {
+      let endOfDay = new Date(day);
+      endOfDay.setHours(23, 59, 59, 999);
+      let event = events.find(event => event.attributes.startDate >= day && event.attributes.endDate <= endOfDay); %>
       <div class="col-12">
         <div class="_ds-form select">
           <label for="<%= `day-${day.toLocaleDateString('fr', { year: 'numeric' })}-${day.toLocaleDateString('fr', { month: '2-digit' })}-${day.toLocaleDateString('fr', { day: '2-digit' })}` %>"><%= `${day.toLocaleDateString('fr', { weekday: 'long' })} ${day.toLocaleDateString('fr', { day: 'numeric' })} ${day.toLocaleDateString('fr', { month: 'long' })}` %></label>
           <button class="z-index-medium" id="<%= `day-${day.toLocaleDateString('fr', { year: 'numeric' })}-${day.toLocaleDateString('fr', { month: '2-digit' })}-${day.toLocaleDateString('fr', { day: '2-digit' })}` %>" type="button">
             <div class="_ds-link caption-icon">
-              <i class="bi bi-calendar4"></i>
+              <i class="bi <%= event ? 'bi-calendar-fill' : 'bi-calendar4' %>"></i>
             </div>
             <div class="_ds-link body">
               <div class="_ds-link title">
-                <% let endOfDay = new Date(day);
-                endOfDay.setHours(23, 59, 59, 999);
-                let event = events.find(event => event.attributes.startDate >= day && event.attributes.endDate <= endOfDay);
-                if (event) { %>
+                <% if (event) { %>
                   <b><%= event.attributes.description %></b>
                   <span id="<%= `event-${event.id}` %>"><%= `${event.attributes.startDate.toLocaleString('fr', { timeStyle: 'short' })} - ${event.attributes.endDate.toLocaleString('fr', { timeStyle: 'short' })}` %></span>
                   <% if (event.id == added) { %> <span class="badge rounded-pill text-bg-success">Ajouté</span> <% } %>
