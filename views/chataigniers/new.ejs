@@ -1,70 +1,70 @@
 <%- include('header'); %>
-<div class="ds-title">
-  <h1 class="_ds-title title"><%= `${nextDay.toLocaleString('fr', { weekday: 'long' })} ${nextDay.toLocaleString('fr', { day: 'numeric' })} ${nextDay.toLocaleString('fr', { month: 'long' })}` %></h1>
-</div>
-<form action="/chataigniers" class="ds-form" method="post" onsubmit="this.onsubmit = () => false;">
-  <div class="row">
-    <div class="col-6 col-xl-4">
-      <button class="ds-link-small" <%= nextDay > endDate ? 'disabled' : '' %> name="value" type="submit" value="green-5">
-        <div class="_ds-link body">
-          <div class="_ds-link-small title">5 Vert</div>
-        </div>
-        <div class="_ds-link action-icon">
-          <i class="bi bi-chevron-right"></i>
-        </div>
-      </a>
+<section class="ds-section">
+  <h1 class="_ds-section title"><%= `${nextDay.toLocaleString('fr', { weekday: 'long' })} ${nextDay.toLocaleString('fr', { day: 'numeric' })} ${nextDay.toLocaleString('fr', { month: 'long' })}` %></h1>
+  <form action="/chataigniers" class="ds-form" method="post" onsubmit="this.onsubmit = () => false;">
+    <div class="row">
+      <div class="col-6 col-xl-4">
+        <button class="ds-link-small" <%= nextDay > endDate ? 'disabled' : '' %> name="value" type="submit" value="green-5">
+          <div class="_ds-link body">
+            <div class="_ds-link-small title">5 Vert</div>
+          </div>
+          <div class="_ds-link action-icon">
+            <i class="bi bi-chevron-right"></i>
+          </div>
+        </a>
+      </div>
+      <div class="col-6 col-xl-4">
+        <button class="ds-link-small" <%= nextDay > endDate ? 'disabled' : '' %> name="value" type="submit" value="blue-7">
+          <div class="_ds-link body">
+            <div class="_ds-link-small title">7 Bleu</div>
+          </div>
+          <div class="_ds-link action-icon">
+            <i class="bi bi-chevron-right"></i>
+          </div>
+        </a>
+      </div>
+      <div class="col-6 col-xl-4">
+        <button class="ds-link-small" <%= nextDay > endDate ? 'disabled' : '' %> name="value" type="submit" value="red-7">
+          <div class="_ds-link body">
+            <div class="_ds-link-small title">7 Rouge</div>
+          </div>
+          <div class="_ds-link action-icon">
+            <i class="bi bi-chevron-right"></i>
+          </div>
+        </a>
+      </div>
+      <div class="col-6 col-xl-4">
+        <button class="ds-link-small" <%= nextDay > endDate ? 'disabled' : '' %> name="value" type="submit" value="red-f">
+          <div class="_ds-link body">
+            <div class="_ds-link-small title">F Rouge</div>
+          </div>
+          <div class="_ds-link action-icon">
+            <i class="bi bi-chevron-right"></i>
+          </div>
+        </a>
+      </div>
+      <div class="col-6 col-xl-4">
+        <button class="ds-link-small" <%= nextDay > endDate ? 'disabled' : '' %> name="value" type="submit" value="butterfly">
+          <div class="_ds-link body">
+            <div class="_ds-link-small title">Papillon</div>
+          </div>
+          <div class="_ds-link action-icon">
+            <i class="bi bi-chevron-right"></i>
+          </div>
+        </a>
+      </div>
+      <div class="col-6 col-xl-4">
+        <button class="ds-link-small" <%= nextDay > endDate ? 'disabled' : '' %> name="value" type="submit" value="rh">
+          <div class="_ds-link body">
+            <div class="_ds-link-small title">RH</div>
+          </div>
+          <div class="_ds-link action-icon">
+            <i class="bi bi-chevron-right"></i>
+          </div>
+        </a>
+      </div>
     </div>
-    <div class="col-6 col-xl-4">
-      <button class="ds-link-small" <%= nextDay > endDate ? 'disabled' : '' %> name="value" type="submit" value="blue-7">
-        <div class="_ds-link body">
-          <div class="_ds-link-small title">7 Bleu</div>
-        </div>
-        <div class="_ds-link action-icon">
-          <i class="bi bi-chevron-right"></i>
-        </div>
-      </a>
-    </div>
-    <div class="col-6 col-xl-4">
-      <button class="ds-link-small" <%= nextDay > endDate ? 'disabled' : '' %> name="value" type="submit" value="red-7">
-        <div class="_ds-link body">
-          <div class="_ds-link-small title">7 Rouge</div>
-        </div>
-        <div class="_ds-link action-icon">
-          <i class="bi bi-chevron-right"></i>
-        </div>
-      </a>
-    </div>
-    <div class="col-6 col-xl-4">
-      <button class="ds-link-small" <%= nextDay > endDate ? 'disabled' : '' %> name="value" type="submit" value="red-f">
-        <div class="_ds-link body">
-          <div class="_ds-link-small title">F Rouge</div>
-        </div>
-        <div class="_ds-link action-icon">
-          <i class="bi bi-chevron-right"></i>
-        </div>
-      </a>
-    </div>
-    <div class="col-6 col-xl-4">
-      <button class="ds-link-small" <%= nextDay > endDate ? 'disabled' : '' %> name="value" type="submit" value="butterfly">
-        <div class="_ds-link body">
-          <div class="_ds-link-small title">Papillon</div>
-        </div>
-        <div class="_ds-link action-icon">
-          <i class="bi bi-chevron-right"></i>
-        </div>
-      </a>
-    </div>
-    <div class="col-6 col-xl-4">
-      <button class="ds-link-small" <%= nextDay > endDate ? 'disabled' : '' %> name="value" type="submit" value="rh">
-        <div class="_ds-link body">
-          <div class="_ds-link-small title">RH</div>
-        </div>
-        <div class="_ds-link action-icon">
-          <i class="bi bi-chevron-right"></i>
-        </div>
-      </a>
-    </div>
-  </div>
-  <input type="hidden" name="date" value="<%= nextDay.toISOString() %>">
-</form>
+    <input type="hidden" name="date" value="<%= nextDay.toISOString() %>">
+  </form>
+</section>
 <%- include('footer'); %>
