@@ -11,7 +11,8 @@ const port = 80;
 app.disable('x-powered-by');
 app.set('view cache', false);
 app.set('view engine', 'ejs');
-app.use(cookieParser())
+app.use(cookieParser());
+app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static('public', { maxAge: '7d' }));
 app.use(morgan('tiny'));
@@ -76,12 +77,22 @@ app.delete('/chataigniers/:id', (req, res) => {
 });
 
 app.get('/chataigniers', (req, res) => {
-  let startDate = new Date();
-  startDate.setMonth(startDate.getMonth() - 1, 1);
+  let startDate = null;
+  if (req.query.startDate) {
+    startDate = new Date(req.query.startDate);
+  } else {
+    startDate = new Date();
+    startDate.setMonth(startDate.getMonth() - 1, 1);
+  }
   startDate.setHours(0, 0, 0, 0);
 
-  let endDate = new Date();
-  endDate.setMonth(endDate.getMonth() + 3, 0);
+  let endDate = null;
+  if (req.query.endDate) {
+    endDate = new Date(req.query.endDate);
+  } else {
+    startDate = new Date();
+    endDate.setMonth(endDate.getMonth() + 3, 0);
+  }
   endDate.setHours(23, 59, 59, 999);
 
   const params = {
@@ -127,7 +138,7 @@ app.get('/chataigniers', (req, res) => {
     } 
 
     res.render('chataigniers/events', {
-      added: req.query.added || null,
+      added: req.query.added || null,
       days: days,
       endDate: endDate,
       nextDay: nextDay,
@@ -268,6 +279,65 @@ app.post('/chataigniers', (req, res) => {
     if ([401, 403].includes(error.response.status)) {
       res.redirect('https://id.digitalleman.com?r=calendar.digitalleman.com%2Fchataigniers')
     }
+    res.status(error.response.status);
+    res.send();
+  });
+});
+
+app.put('/chataigniers/:id', (req, res) => {
+  let endDate = new Date(req.body.date);
+  let event = {
+    title: 'Les Châtaigniers'
+  }
+  let startDate = new Date(req.body.date);
+
+  switch (req.body.value) {
+    case 'green-5':
+      startDate.setHours(8, 0, 0, 0);
+      endDate.setHours(19, 30, 0, 0);
+      event.description = '5 Vert';
+      break;
+    case 'blue-7':
+      startDate.setHours(10, 0, 0, 0);
+      endDate.setHours(19, 30, 0, 0);
+      event.description = '7 Bleu';
+      break;
+    case 'red-7':
+      startDate.setHours(10, 30, 0, 0);
+      endDate.setHours(19, 30, 0, 0);
+      event.description = '7 Rouge';
+      break;
+    case 'red-f':
+      startDate.setHours(0, 0, 0, 0);
+      endDate.setHours(0, 0, 0, 0);
+      event.description = 'Férié';
+      event.title = `Férié (${event.title})`;
+      break;
+    case 'butterfly':
+      startDate.setHours(6, 30, 0, 0);
+      endDate.setHours(15, 0, 0, 0);
+      event.description = 'Papillon';
+      break;
+    case 'rh':
+      startDate.setHours(0, 0, 0, 0);
+      endDate.setHours(0, 0, 0, 0);
+      event.description = 'Congé';
+      event.title = `Congé (${event.title})`;
+      break;
+  }
+  event.endDate = endDate;
+  event.startDate = startDate;
+  
+  axios.put(`https://api.digitalleman.com/v2/events/${req.params.id}`, { data: event }, {
+    headers: {
+      'authorization': `Bearer ${req.token}`
+    }
+  })
+  .then((response) => {
+    res.status(response.status);
+    res.send();
+  })
+  .catch((error) => {
     res.status(error.response.status);
     res.send();
   });

@@ -6,20 +6,18 @@
       endOfDay.setHours(23, 59, 59, 999);
       let event = events.find(event => event.attributes.startDate >= day && event.attributes.endDate <= endOfDay); %>
       <div class="col-12">
-        <div class="_ds-form select">
-          <label for="<%= `day-${day.toLocaleDateString('fr', { year: 'numeric' })}-${day.toLocaleDateString('fr', { month: '2-digit' })}-${day.toLocaleDateString('fr', { day: '2-digit' })}` %>"><%= `${day.toLocaleDateString('fr', { weekday: 'long' })} ${day.toLocaleDateString('fr', { day: 'numeric' })} ${day.toLocaleDateString('fr', { month: 'long' })}` %></label>
-          <button class="z-index-medium" id="<%= `day-${day.toLocaleDateString('fr', { year: 'numeric' })}-${day.toLocaleDateString('fr', { month: '2-digit' })}-${day.toLocaleDateString('fr', { day: '2-digit' })}` %>" type="button">
+        <div class="_ds-form select" <%- event ? `data-api-id="${event.id}"` : '' %> id="<%= `${day.toLocaleDateString('fr', { year: 'numeric' })}-${day.toLocaleDateString('fr', { month: '2-digit' })}-${day.toLocaleDateString('fr', { day: '2-digit' })}` %>">
+          <label for="<%= `${day.toLocaleDateString('fr', { year: 'numeric' })}-${day.toLocaleDateString('fr', { month: '2-digit' })}-${day.toLocaleDateString('fr', { day: '2-digit' })}` %>"><%= `${day.toLocaleDateString('fr', { weekday: 'long' })} ${day.toLocaleDateString('fr', { day: 'numeric' })} ${day.toLocaleDateString('fr', { month: 'long' })}` %></label>
+          <button class="z-index-medium" data-name="<%= `${day.toLocaleDateString('fr', { year: 'numeric' })}-${day.toLocaleDateString('fr', { month: '2-digit' })}-${day.toLocaleDateString('fr', { day: '2-digit' })}` %>" type="button">
             <div class="_ds-link caption-icon">
               <i class="bi <%= event ? 'bi-calendar-fill' : 'bi-calendar4' %>"></i>
             </div>
             <div class="_ds-link body">
               <div class="_ds-link title">
                 <% if (event) { %>
-                  <b><%= event.attributes.description %></b>
-                  <span id="<%= `event-${event.id}` %>"><%= `${event.attributes.startDate.toLocaleString('fr', { timeStyle: 'short' })} - ${event.attributes.endDate.toLocaleString('fr', { timeStyle: 'short' })}` %></span>
-                  <% if (event.id == added) { %> <span class="badge rounded-pill text-bg-success">Ajouté</span> <% } %>
+                  <%= event.attributes.description %>
                 <% } else { %>
-                  <span>Sélectionner planning</span>
+                  Sélectionner planning
                 <% }; %>
               </div>
             </div>
@@ -35,7 +33,7 @@
             <li data-value="butterfly">Papillon</li>
             <li data-value="rh">RH</li>
           </ul>
-          <select name="<%= `day-${day.toLocaleDateString('fr', { year: 'numeric' })}-${day.toLocaleDateString('fr', { month: '2-digit' })}-${day.toLocaleDateString('fr', { day: '2-digit' })}` %>" type="select">
+          <select name="<%= `${day.toLocaleDateString('fr', { year: 'numeric' })}-${day.toLocaleDateString('fr', { month: '2-digit' })}-${day.toLocaleDateString('fr', { day: '2-digit' })}` %>" type="select">
             <option value=""></option>
             <option value="green-5" <%= event && event.attributes.description == '5 Vert' ? 'selected' : '' %>>5 Vert</option>
             <option value="blue-7" <%= event && event.attributes.description == '7 Bleu' ? 'selected' : '' %>>7 Bleu</option>

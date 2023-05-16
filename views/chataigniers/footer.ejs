@@ -25,14 +25,22 @@
                 <i class="bi bi-chevron-right"></i>
               </div>
             </a>
-            <a alt="Modifier" class="ds-link" href="/chataigniers">
-              <div class="_ds-link body">
-                <div class="_ds-link title">Modifier</div>
-              </div>
-              <div class="_ds-link action-icon">
-                <i class="bi bi-chevron-right"></i>
-              </div>
-            </a>
+            <% let startDate = new Date();
+            startDate.setMonth(startDate.getMonth() - 1, 1);
+            let endDate = new Date();
+            endDate.setMonth(endDate.getMonth(), 0);
+            for (let i = 0; i < 4; i++) { %>
+              <a alt="Modifier" class="ds-link" href="/chataigniers?startDate=<%= `${startDate.toLocaleDateString('fr', { year: 'numeric' })}-${startDate.toLocaleDateString('fr', { month: '2-digit' })}-${startDate.toLocaleDateString('fr', { day: '2-digit' })}` %>&endDate=<%= `${endDate.toLocaleDateString('fr', { year: 'numeric' })}-${endDate.toLocaleDateString('fr', { month: '2-digit' })}-${endDate.toLocaleDateString('fr', { day: '2-digit' })}` %>">
+                <div class="_ds-link body">
+                  <div class="_ds-link title">Modifier <%= startDate.toLocaleDateString('fr', { month: 'long' }) %></div>
+                </div>
+                <div class="_ds-link action-icon">
+                  <i class="bi bi-chevron-right"></i>
+                </div>
+              </a>
+              <% startDate.setMonth(startDate.getMonth() + 1, 1);
+              endDate.setMonth(endDate.getMonth() + 2, 0);
+            } %>
             <!-- <a alt="Modifier" class="ds-link" href="/chataigniers">
               <div class="_ds-link body">
                 <div class="_ds-link title">Modifier</div>
@@ -55,5 +63,6 @@
     </div>
     <div class="ds-background z-index-low" id="ds-background"></div>
     <script src="https://ds.digitalleman.com/index.js"></script>
+    <script src="/index.js"></script>
   </body>
 </html>
