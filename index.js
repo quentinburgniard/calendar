@@ -90,7 +90,7 @@ app.get('/chataigniers', (req, res) => {
   if (req.query.endDate) {
     endDate = new Date(req.query.endDate);
   } else {
-    startDate = new Date();
+    endDate = new Date();
     endDate.setMonth(endDate.getMonth() + 3, 0);
   }
   endDate.setHours(23, 59, 59, 999);
