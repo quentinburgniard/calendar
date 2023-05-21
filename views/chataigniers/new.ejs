@@ -1,7 +1,7 @@
 <%- include('header'); %>
 <div class="row">
   <div class="col-12">
-    <section class="ds-section">
+    <section class="ds-section grey">
         <h1 class="_ds-section title"><%= `${nextDay.toLocaleString('fr', { weekday: 'long' })} ${nextDay.toLocaleString('fr', { day: 'numeric' })} ${nextDay.toLocaleString('fr', { month: 'long' })}` %></h1>
       <form action="/chataigniers" class="ds-form" method="post" onsubmit="this.onsubmit = () => false;">
         <div class="row">
