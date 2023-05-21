@@ -19,9 +19,10 @@
       })
       .then((response) => {
         success = response.ok;
+        return response.json();
       })
       .then((data) => {
-        console.log(`${data}`);
+        ds.newToast(data.message);
       });   
     }
 

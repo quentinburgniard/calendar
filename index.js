@@ -335,7 +335,18 @@ app.put('/chataigniers/:id', (req, res) => {
   })
   .then((response) => {
     res.status(response.status);
-    res.send();
+    let message = '';
+
+    if (response.data.data.attributes) {
+      let data = response.data.data.attributes;
+      let date = new Date(data.startDate);
+      date = `${date.toLocaleDateString('fr', { weekday: 'long' })} ${date.toLocaleDateString('fr', { day: 'numeric' })} ${date.toLocaleDateString('fr', { month: 'long' })}`;
+      message = `${date} enregistré en ${data.description}`;
+    }
+    
+    res.send({
+      message: message
+    });
   })
   .catch((error) => {
     res.status(error.response.status);
