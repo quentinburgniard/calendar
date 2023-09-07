@@ -67,7 +67,6 @@ app.get('/bda28174a0c5d13e671c.ics', (req, res) => {
     });
   })
   .catch((error) => {
-    console.log(error.response.data);
     res.status(error.response.status);
     res.send();
   });
