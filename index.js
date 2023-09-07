@@ -1,6 +1,6 @@
 import axios from 'axios';
 import cookieParser from 'cookie-parser';
-import crypto from 'crypto';
+import { createHash } from 'crypto';
 import express from 'express';
 import morgan from 'morgan';
 import qs from 'qs';
@@ -39,9 +39,9 @@ app.get('/bda28174a0c5d13e671c.ics', (req, res) => {
       user: 2
     },
     pagination: {
-      limit: -1
+      limit: 365
     },
-    sort: 'startDate'
+    sort: 'startDate:desc'
   }
 
   axios.get('https://api.digitalleman.com/v2/events?' + qs.stringify(params), {
@@ -58,7 +58,7 @@ app.get('/bda28174a0c5d13e671c.ics', (req, res) => {
         endDate: new Date(event.attributes.endDate),
         startDate: new Date(event.attributes.startDate)
       }
-      event.id = crypto.createHash('md5').update(`${event.id}${event.attributes.updatedAt}`).digest("hex");
+      event.id = createHash('md5').update(`${event.id}${event.attributes.updatedAt}`).digest("hex");
       return event;
     });
 
