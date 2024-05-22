@@ -25,7 +25,7 @@
         ds.newToast(data.message);
       });   
     } else {
-      await fetch(`/chataigniers`, {
+      await fetch(`/chataigniers?response=json`, {
         body: JSON.stringify({
           date: parentNode.id,
           value: event.target.getAttribute('data-value')

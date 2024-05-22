@@ -272,7 +272,23 @@ app.post('/chataigniers', (req, res) => {
     }
   })
   .then((response) => {
-    res.redirect(303, `/chataigniers/new`);
+    if (req.query.response == 'json') {
+      res.status(response.status);
+      let message = '';
+  
+      if (response.data.data.attributes) {
+        let data = response.data.data.attributes;
+        let date = new Date(data.startDate);
+        date = `${date.toLocaleDateString('fr', { weekday: 'long' })} ${date.toLocaleDateString('fr', { day: 'numeric' })} ${date.toLocaleDateString('fr', { month: 'long' })}`;
+        message = `${date} enregistré en ${data.description}`;
+      }
+      
+      res.send({
+        message: message
+      });
+    } else {
+      res.redirect(303, `/chataigniers/new`);
+    }
   })
   .catch((error) => {
     if ([401, 403].includes(error.response.status)) {
