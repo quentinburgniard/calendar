@@ -41,7 +41,7 @@
       })
       .then((data) => {
         parentNode.setAttribute('data-api-id', data.id);
-        parentNode.querySelector('i .bi').classList.remove('bi-calendar4');
+        parentNode.querySelector('i.bi-calendar4').classList.replace('bi-calendar4', 'bi-calendar-fill');
         ds.newToast(data.message);
       }); 
     }
