@@ -24,6 +24,24 @@
       .then((data) => {
         ds.newToast(data.message);
       });   
+    } else {
+      await fetch(`/chataigniers`, {
+        body: JSON.stringify({
+          date: parentNode.id,
+          value: event.target.getAttribute('data-value')
+        }),
+        headers: {
+          'content-type': 'application/json'
+        },
+        method: 'POST'
+      })
+      .then((response) => {
+        success = response.ok;
+        return response.json();
+      })
+      .then((data) => {
+        ds.newToast(data.message);
+      }); 
     }
 
     return success;
