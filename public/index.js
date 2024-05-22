@@ -40,6 +40,8 @@
         return response.json();
       })
       .then((data) => {
+        parentNode.setAttribute('data-api-id', data.id);
+        parentNode.querySelector('i .bi').classList.remove('bi-calendar4');
         ds.newToast(data.message);
       }); 
     }

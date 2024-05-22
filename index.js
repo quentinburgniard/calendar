@@ -284,6 +284,7 @@ app.post('/chataigniers', (req, res) => {
       }
       
       res.send({
+        id: response.data.data.id,
         message: message
       });
     } else {
@@ -360,7 +361,7 @@ app.put('/chataigniers/:id', (req, res) => {
     }
     
     res.send({
-      message: message
+      message: message,
     });
   })
   .catch((error) => {
