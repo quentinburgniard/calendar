@@ -4,7 +4,7 @@
     <% days.forEach((day) => {
       let endOfDay = new Date(day);
       endOfDay.setHours(23, 59, 59, 999);
-      let event = events.find(event => event.attributes.startDate >= day && event.attributes.endDate <= endOfDay); %>
+      let event = events.find(event => event.startDate >= day && event.endDate <= endOfDay); %>
       <div class="col-12">
         <div class="_ds-form select" <%- event ? `data-api-id="${event.id}"` : '' %> id="<%= `${day.toLocaleDateString('fr', { year: 'numeric' })}-${day.toLocaleDateString('fr', { month: '2-digit' })}-${day.toLocaleDateString('fr', { day: '2-digit' })}` %>">
           <label for="<%= `${day.toLocaleDateString('fr', { year: 'numeric' })}-${day.toLocaleDateString('fr', { month: '2-digit' })}-${day.toLocaleDateString('fr', { day: '2-digit' })}` %>"><%= `${day.toLocaleDateString('fr', { weekday: 'long' })} ${day.toLocaleDateString('fr', { day: 'numeric' })} ${day.toLocaleDateString('fr', { month: 'long' })}` %></label>
@@ -15,7 +15,7 @@
             <div class="_ds-link body">
               <div class="_ds-link title">
                 <% if (event) { %>
-                  <%= event.attributes.description %>
+                  <%= event.description %>
                 <% } else { %>
                   Sélectionner planning
                 <% }; %>
@@ -35,12 +35,12 @@
           </ul>
           <select name="<%= `${day.toLocaleDateString('fr', { year: 'numeric' })}-${day.toLocaleDateString('fr', { month: '2-digit' })}-${day.toLocaleDateString('fr', { day: '2-digit' })}` %>" type="select">
             <option value=""></option>
-            <option value="green-5" <%= event && event.attributes.description == '5 Vert' ? 'selected' : '' %>>5 Vert</option>
-            <option value="blue-7" <%= event && event.attributes.description == '7 Bleu' ? 'selected' : '' %>>7 Bleu</option>
-            <option value="red-7" <%= event && event.attributes.description == '7 Rouge' ? 'selected' : '' %>>7 Rouge</option>
-            <option value="red-f" <%= event && event.attributes.description == 'F Rouge' ? 'selected' : '' %>>F Rouge</option>
-            <option value="butterfly" <%= event && event.attributes.description == 'Papillon' ? 'selected' : '' %>>Papillon</option>
-            <option value="rh" <%= event && event.attributes.description == 'RH' ? 'selected' : '' %>>RH</option>
+            <option value="green-5" <%= event && event.description == '5 Vert' ? 'selected' : '' %>>5 Vert</option>
+            <option value="blue-7" <%= event && event.description == '7 Bleu' ? 'selected' : '' %>>7 Bleu</option>
+            <option value="red-7" <%= event && event.description == '7 Rouge' ? 'selected' : '' %>>7 Rouge</option>
+            <option value="red-f" <%= event && event.description == 'F Rouge' ? 'selected' : '' %>>F Rouge</option>
+            <option value="butterfly" <%= event && event.description == 'Papillon' ? 'selected' : '' %>>Papillon</option>
+            <option value="rh" <%= event && event.description == 'RH' ? 'selected' : '' %>>RH</option>
           </select>
         </div>
       </div>

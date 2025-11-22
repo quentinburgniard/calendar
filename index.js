@@ -6,7 +6,7 @@ import morgan from "morgan";
 import qs from "qs";
 
 const app = express();
-const port = 8080;
+const port = 80;
 
 app.disable("x-powered-by");
 app.set("view cache", false);
@@ -45,22 +45,25 @@ app.get("/bda28174a0c5d13e671c.ics", (req, res) => {
   };
 
   axios
-    .get("https://api.digitalleman.com/v2/events?" + qs.stringify(params), {
-      headers: {
-        authorization: `Bearer ${process.env.TOKEN}`,
-      },
-    })
+    .get(
+      "https://api.preview.digitalleman.com/v5/events?" + qs.stringify(params),
+      {
+        headers: {
+          authorization: `Bearer ${process.env.TOKEN}`,
+        },
+      }
+    )
     .then((response) => {
       res.set({
         "content-type": "text/calendar",
       });
       let events = response.data.data.map((event) => {
         event.date = {
-          endDate: new Date(event.attributes.endDate),
-          startDate: new Date(event.attributes.startDate),
+          endDate: new Date(event.endDate),
+          startDate: new Date(event.startDate),
         };
         event.id = createHash("md5")
-          .update(`${event.id}${event.attributes.updatedAt}`)
+          .update(`${event.id}${event.updatedAt}`)
           .digest("hex");
         return event;
       });
@@ -108,22 +111,25 @@ app.get("/chataigniers", (req, res) => {
       },
     },
     pagination: {
-      limit: -1,
+      limit: 200,
     },
     sort: "startDate",
   };
 
   axios
-    .get("https://api.digitalleman.com/v2/events?" + qs.stringify(params), {
-      headers: {
-        authorization: `Bearer ${req.token}`,
-      },
-    })
-    .then((response) => {
+    .get(
+      "https://api.preview.digitalleman.com/v5/events?" + qs.stringify(params),
+      {
+        headers: {
+          authorization: `Bearer ${req.token}`,
+        },
+      }
+    )
+    .then(({ data }) => {
       let days = getDays(startDate, endDate);
-      let events = response.data.data.map((event) => {
-        event.attributes.endDate = new Date(event.attributes.endDate);
-        event.attributes.startDate = new Date(event.attributes.startDate);
+      let events = data.data.map((event) => {
+        event.endDate = new Date(event.endDate);
+        event.startDate = new Date(event.startDate);
         return event;
       });
       let nextDay = startDate;
@@ -133,16 +139,14 @@ app.get("/chataigniers", (req, res) => {
           dayEnd.setHours(23, 59, 59, 999);
           return (
             events.filter(
-              (event) =>
-                event.attributes.startDate >= day &&
-                event.attributes.endDate <= dayEnd
+              (event) => event.startDate >= day && event.endDate <= dayEnd
             ).length == 0
           );
         });
         if (found) {
           nextDay = new Date(found);
         } else {
-          nextDay = new Date(events[events.length - 1].attributes.startDate);
+          nextDay = new Date(events[events.length - 1].startDate);
           nextDay.setDate(nextDay.getDate() + 1);
         }
       }
@@ -158,7 +162,7 @@ app.get("/chataigniers", (req, res) => {
     .catch((error) => {
       if ([401, 403].includes(error.response.status)) {
         res.redirect(
-          "https://id.digitalleman.com/fr?r=calendar.digitalleman.com%2Fchataigniers"
+          "https://id.preview.digitalleman.com/fr?r=calendar.preview.digitalleman.com%2Fchataigniers"
         );
       }
       res.status(error.response.status);
@@ -185,22 +189,25 @@ app.get("/chataigniers/new", (req, res) => {
       },
     },
     pagination: {
-      limit: -1,
+      limit: 200,
     },
     sort: "startDate",
   };
 
   axios
-    .get("https://api.digitalleman.com/v2/events?" + qs.stringify(params), {
-      headers: {
-        authorization: `Bearer ${req.token}`,
-      },
-    })
+    .get(
+      "https://api.preview.digitalleman.com/v5/events?" + qs.stringify(params),
+      {
+        headers: {
+          authorization: `Bearer ${req.token}`,
+        },
+      }
+    )
     .then((response) => {
       let days = getDays(startDate, endDate);
       let events = response.data.data.map((event) => {
-        event.attributes.endDate = new Date(event.attributes.endDate);
-        event.attributes.startDate = new Date(event.attributes.startDate);
+        event.endDate = new Date(event.endDate);
+        event.startDate = new Date(event.startDate);
         return event;
       });
       let nextDay = startDate;
@@ -210,16 +217,14 @@ app.get("/chataigniers/new", (req, res) => {
           dayEnd.setHours(23, 59, 59, 999);
           return (
             events.filter(
-              (event) =>
-                event.attributes.startDate >= day &&
-                event.attributes.endDate <= dayEnd
+              (event) => event.startDate >= day && event.endDate <= dayEnd
             ).length == 0
           );
         });
         if (found) {
           nextDay = new Date(found);
         } else {
-          nextDay = new Date(events[events.length - 1].attributes.startDate);
+          nextDay = new Date(events[events.length - 1].startDate);
           nextDay.setDate(nextDay.getDate() + 1);
         }
       }
@@ -235,7 +240,7 @@ app.get("/chataigniers/new", (req, res) => {
     .catch((error) => {
       if ([401, 403].includes(error.response.status)) {
         res.redirect(
-          "https://id.digitalleman.com/fr?r=calendar.digitalleman.com%2Fchataigniers"
+          "https://id.preview.digitalleman.com/fr?r=calendar.preview.digitalleman.com%2Fchataigniers"
         );
       }
       res.status(error.response.status);
@@ -289,7 +294,7 @@ app.post("/chataigniers", (req, res) => {
 
   axios
     .post(
-      "https://api.digitalleman.com/v2/events",
+      "https://api.preview.digitalleman.com/v5/events",
       { data: event },
       {
         headers: {
@@ -324,7 +329,7 @@ app.post("/chataigniers", (req, res) => {
     .catch((error) => {
       if ([401, 403].includes(error.response.status)) {
         res.redirect(
-          "https://id.digitalleman.com/fr?r=calendar.digitalleman.com%2Fchataigniers"
+          "https://id.preview.digitalleman.com/fr?r=calendar.preview.digitalleman.com%2Fchataigniers"
         );
       }
       res.status(error.response.status);
@@ -378,7 +383,7 @@ app.put("/chataigniers/:id", (req, res) => {
 
   axios
     .put(
-      `https://api.digitalleman.com/v2/events/${req.params.id}`,
+      `https://api.preview.digitalleman.com/v5/events/${req.params.id}`,
       { data: event },
       {
         headers: {
@@ -411,12 +416,13 @@ app.put("/chataigniers/:id", (req, res) => {
     });
 });
 
-app.use((req, res) => {
+app.use((_, res) => {
   res.status(404);
   res.send();
 });
 
-app.use((err, req, res, next) => {
+app.use((_, __, res, ___) => {
+  console.log(_);
   res.status(500);
   res.send();
 });
