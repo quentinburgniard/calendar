@@ -14,7 +14,8 @@
   "name": "private",
   "private": true,
   "scripts": {
-    "develop": "nodemon"
+    "develop": "nodemon",
+    "start": "node index.js"
   },
   "type": "module"
 }
