@@ -39,7 +39,7 @@ app.get("/bda28174a0c5d13e671c.ics", (req, res) => {
       user: 2,
     },
     pagination: {
-      limit: 365,
+      pageSize: 365,
     },
     sort: "startDate:desc",
   };
@@ -111,7 +111,7 @@ app.get("/chataigniers", (req, res) => {
       },
     },
     pagination: {
-      limit: 200,
+      pageSize: 200,
     },
     sort: "startDate",
   };
@@ -189,7 +189,7 @@ app.get("/chataigniers/new", (req, res) => {
       },
     },
     pagination: {
-      limit: 200,
+      pageSize: 200,
     },
     sort: "startDate",
   };
