@@ -28,7 +28,7 @@ const getDays = (startDate, endDate) => {
   return days;
 };
 
-app.use((req, res, next) => {
+app.use((req, _, next) => {
   req.token = req.cookies.t || "";
   next();
 });
@@ -115,6 +115,7 @@ app.get("/chataigniers", (req, res) => {
     },
     sort: "startDate",
   };
+  console.log(params);
 
   axios
     .get(
