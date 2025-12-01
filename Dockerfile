@@ -1,6 +1,6 @@
 FROM node:22-alpine
 ENV NODE_ENV=production
-ENV TZ=UTC
+ENV TZ=Europe/Paris
 WORKDIR /usr/src/app
 EXPOSE 80
 COPY package.json package-lock.json ./

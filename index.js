@@ -115,7 +115,6 @@ app.get("/chataigniers", (req, res) => {
     },
     sort: "startDate",
   };
-  console.log(params);
 
   axios
     .get(
@@ -213,15 +212,9 @@ app.get("/chataigniers/new", (req, res) => {
       });
       let nextDay = startDate;
       if (events.length) {
-        let found = days.find((day) => {
-          let dayEnd = new Date(day);
-          dayEnd.setHours(23, 59, 59, 999);
-          return (
-            events.filter(
-              (event) => event.startDate >= day && event.endDate <= dayEnd
-            ).length == 0
-          );
-        });
+        let found = new Date(events.at(-1).endDate);
+        found.setHours(23, 59, 59, 999);
+        found.setDate(found.getDate() + 1);
         if (found) {
           nextDay = new Date(found);
         } else {
@@ -282,6 +275,16 @@ app.post("/chataigniers", (req, res) => {
       startDate.setHours(6, 30, 0, 0);
       endDate.setHours(15, 0, 0, 0);
       event.description = "Papillon";
+      break;
+    case "3r":
+      //startDate.setHours(6, 30, 0, 0);
+      //endDate.setHours(15, 0, 0, 0);
+      event.description = "3R";
+      break;
+    case "p0":
+      //startDate.setHours(6, 30, 0, 0);
+      //endDate.setHours(15, 0, 0, 0);
+      event.description = "P0";
       break;
     case "rh":
       startDate.setHours(0, 0, 0, 0);
@@ -372,6 +375,16 @@ app.put("/chataigniers/:id", (req, res) => {
       endDate.setHours(15, 0, 0, 0);
       event.description = "Papillon";
       break;
+    case "3r":
+      //startDate.setHours(6, 30, 0, 0);
+      //endDate.setHours(15, 0, 0, 0);
+      event.description = "3R";
+      break;
+    case "p0":
+      //startDate.setHours(6, 30, 0, 0);
+      //endDate.setHours(15, 0, 0, 0);
+      event.description = "P0";
+      break;
     case "rh":
       startDate.setHours(0, 0, 0, 0);
       endDate.setHours(0, 0, 0, 0);
@@ -423,7 +436,6 @@ app.use((_, res) => {
 });
 
 app.use((_, __, res, ___) => {
-  console.log(_);
   res.status(500);
   res.send();
 });

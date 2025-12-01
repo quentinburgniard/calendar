@@ -14,8 +14,8 @@
   "name": "private",
   "private": true,
   "scripts": {
-    "develop": "nodemon",
-    "start": "node index.js"
+    "develop": "TZ=Europe/Paris nodemon",
+    "start": "TZ=Europe/Paris node app.js"
   },
   "type": "module"
 }
