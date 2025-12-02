@@ -277,14 +277,9 @@ app.post("/chataigniers", (req, res) => {
       event.description = "Papillon";
       break;
     case "3r":
-      //startDate.setHours(6, 30, 0, 0);
-      //endDate.setHours(15, 0, 0, 0);
+      startDate.setHours(8, 0, 0, 0);
+      endDate.setHours(17, 0, 0, 0);
       event.description = "3R";
-      break;
-    case "p0":
-      //startDate.setHours(6, 30, 0, 0);
-      //endDate.setHours(15, 0, 0, 0);
-      event.description = "P0";
       break;
     case "rh":
       startDate.setHours(0, 0, 0, 0);
@@ -376,14 +371,9 @@ app.put("/chataigniers/:id", (req, res) => {
       event.description = "Papillon";
       break;
     case "3r":
-      //startDate.setHours(6, 30, 0, 0);
-      //endDate.setHours(15, 0, 0, 0);
+      startDate.setHours(8, 0, 0, 0);
+      endDate.setHours(17, 0, 0, 0);
       event.description = "3R";
-      break;
-    case "p0":
-      //startDate.setHours(6, 30, 0, 0);
-      //endDate.setHours(15, 0, 0, 0);
-      event.description = "P0";
       break;
     case "rh":
       startDate.setHours(0, 0, 0, 0);
