@@ -15,7 +15,7 @@
   "private": true,
   "scripts": {
     "develop": "TZ=Europe/Paris nodemon",
-    "start": "TZ=Europe/Paris node app.js"
+    "start": "TZ=Europe/Paris node index.js"
   },
   "type": "module"
 }
