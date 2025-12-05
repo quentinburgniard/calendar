@@ -33,11 +33,8 @@ app.use((req, _, next) => {
   next();
 });
 
-app.get("/bda28174a0c5d13e671c.ics", (req, res) => {
+app.get("/bda28174a0c5d13e671c.ics", (_, res) => {
   const params = {
-    filters: {
-      user: 2,
-    },
     pagination: {
       pageSize: 365,
     },
@@ -49,7 +46,7 @@ app.get("/bda28174a0c5d13e671c.ics", (req, res) => {
       "https://api.preview.digitalleman.com/v5/events?" + qs.stringify(params),
       {
         headers: {
-          authorization: `Bearer ${process.env.TOKEN}`,
+          authorization: `Bearer ${process.env.API_KEY}`,
         },
       }
     )
@@ -162,7 +159,7 @@ app.get("/chataigniers", (req, res) => {
     .catch((error) => {
       if ([401, 403].includes(error.response.status)) {
         res.redirect(
-          "https://id.preview.digitalleman.com/fr?r=calendar.preview.digitalleman.com%2Fchataigniers"
+          "https://id.preview.digitalleman.com/fr?r=calendar.digitalleman.com%2Fchataigniers"
         );
       }
       res.status(error.response.status);
@@ -234,7 +231,7 @@ app.get("/chataigniers/new", (req, res) => {
     .catch((error) => {
       if ([401, 403].includes(error.response.status)) {
         res.redirect(
-          "https://id.preview.digitalleman.com/fr?r=calendar.preview.digitalleman.com%2Fchataigniers"
+          "https://id.preview.digitalleman.com/fr?r=calendar.digitalleman.com%2Fchataigniers"
         );
       }
       res.status(error.response.status);
@@ -328,7 +325,7 @@ app.post("/chataigniers", (req, res) => {
     .catch((error) => {
       if ([401, 403].includes(error.response.status)) {
         res.redirect(
-          "https://id.preview.digitalleman.com/fr?r=calendar.preview.digitalleman.com%2Fchataigniers"
+          "https://id.preview.digitalleman.com/fr?r=calendar.digitalleman.com%2Fchataigniers"
         );
       }
       res.status(error.response.status);
