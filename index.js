@@ -50,11 +50,11 @@ app.get("/bda28174a0c5d13e671c.ics", (_, res) => {
         },
       }
     )
-    .then((response) => {
+    .then(({ data }) => {
       res.set({
         "content-type": "text/calendar",
       });
-      let events = response.data.data.map((event) => {
+      let events = data.data.map((event) => {
         event.date = {
           endDate: new Date(event.endDate),
           startDate: new Date(event.startDate),
@@ -70,6 +70,7 @@ app.get("/bda28174a0c5d13e671c.ics", (_, res) => {
       });
     })
     .catch((error) => {
+      console.log(error);
       res.status(error.response.status);
       res.send();
     });
@@ -423,6 +424,7 @@ app.use((_, res) => {
 });
 
 app.use((_, __, res, ___) => {
+  console.log(_);
   res.status(500);
   res.send();
 });
