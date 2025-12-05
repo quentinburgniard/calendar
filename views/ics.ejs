@@ -6,26 +6,26 @@ VERSION:2.0
 X-PUBLISHED-TTL:PT1D
 <% events.forEach((event) => { -%>
 BEGIN:VEVENT
-CREATED:<%= event.attributes.createdAt.replace(/:|-|\.\d{3}/g, '') %>
-DESCRIPTION:Horaire "<%= event.attributes.description %>"\n
+CREATED:<%= event.createdAt.replace(/:|-|\.\d{3}/g, '') %>
+DESCRIPTION:Horaire "<%= event.description %>"\n
  Pour mettre à jour votre planning Les Châtaigniers, 
  rendez-vous sur calendar.digitalleman.com/chataigniers
-DTSTAMP:<%= event.attributes.createdAt.replace(/:|-|\.\d{3}/g, '') %>
-<% if (event.attributes.startDate == event.attributes.endDate) { -%>
+DTSTAMP:<%= event.createdAt.replace(/:|-|\.\d{3}/g, '') %>
+<% if (event.startDate == event.endDate) { -%>
 DTSTART;VALUE=DATE:<%= `${event.date.startDate.toLocaleDateString('fr', { year: 'numeric' })}${event.date.startDate.toLocaleDateString('fr', { month: '2-digit' })}${event.date.startDate.toLocaleDateString('fr', { day: '2-digit' })}` %>
 DTEND;VALUE=DATE:<%= `${event.date.startDate.toLocaleDateString('fr', { year: 'numeric' })}${event.date.startDate.toLocaleDateString('fr', { month: '2-digit' })}${event.date.startDate.toLocaleDateString('fr', { day: '2-digit' })}` %>
 TRANSP:TRANSPARENT
 <% } else { -%>
-DTSTART:<%= event.attributes.startDate.replace(/:|-|\.\d{3}/g, '') %>
-DTEND:<%= event.attributes.endDate.replace(/:|-|\.\d{3}/g, '') %>
+DTSTART:<%= event.startDate.replace(/:|-|\.\d{3}/g, '') %>
+DTEND:<%= event.endDate.replace(/:|-|\.\d{3}/g, '') %>
 LOCATION:Résidence les Châtaigniers\, Chem. des Marais 162\, 1255 Veyrier\,
  Switzerland
 TRANSP:OPAQUE
 <% } -%>
-LAST-MODIFIED:<%= event.attributes.updatedAt.replace(/:|-|\.\d{3}/g, '') %>
+LAST-MODIFIED:<%= event.updatedAt.replace(/:|-|\.\d{3}/g, '') %>
 PRIORITY:3
 SEQUENCE:0
-SUMMARY:<%= event.attributes.title %>
+SUMMARY:<%= event.title %>
 UID:<%= event.id %>@calendar.digitalleman.com
 END:VEVENT
 <% }); -%>
