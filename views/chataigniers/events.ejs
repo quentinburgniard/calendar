@@ -6,7 +6,7 @@
       endOfDay.setHours(23, 59, 59, 999);
       let event = events.find(event => event.startDate >= day && event.endDate <= endOfDay); %>
       <div class="col-12">
-        <div class="_ds-form select" <%- event ? `data-api-id="${event.id}"` : '' %> id="<%= `${day.toLocaleDateString('fr', { year: 'numeric' })}-${day.toLocaleDateString('fr', { month: '2-digit' })}-${day.toLocaleDateString('fr', { day: '2-digit' })}` %>">
+        <div class="_ds-form select" <%- event ? `data-api-id="${event.documentId}"` : '' %> id="<%= `${day.toLocaleDateString('fr', { year: 'numeric' })}-${day.toLocaleDateString('fr', { month: '2-digit' })}-${day.toLocaleDateString('fr', { day: '2-digit' })}` %>">
           <label for="<%= `${day.toLocaleDateString('fr', { year: 'numeric' })}-${day.toLocaleDateString('fr', { month: '2-digit' })}-${day.toLocaleDateString('fr', { day: '2-digit' })}` %>"><%= `${day.toLocaleDateString('fr', { weekday: 'long' })} ${day.toLocaleDateString('fr', { day: 'numeric' })} ${day.toLocaleDateString('fr', { month: 'long' })}` %></label>
           <button class="z-index-medium" data-name="<%= `${day.toLocaleDateString('fr', { year: 'numeric' })}-${day.toLocaleDateString('fr', { month: '2-digit' })}-${day.toLocaleDateString('fr', { day: '2-digit' })}` %>" type="button">
             <div class="_ds-link caption-icon">
