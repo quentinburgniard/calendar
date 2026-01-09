@@ -160,7 +160,7 @@ app.get("/chataigniers", (req, res) => {
     .catch((error) => {
       if ([401, 403].includes(error.response.status)) {
         res.redirect(
-          "https://id.preview.digitalleman.com/fr?r=calendar.digitalleman.com%2Fchataigniers"
+          "https://id.digitalleman.com/fr?r=calendar.digitalleman.com%2Fchataigniers"
         );
       }
       res.status(error.response.status);
@@ -232,7 +232,7 @@ app.get("/chataigniers/new", (req, res) => {
     .catch((error) => {
       if ([401, 403].includes(error.response.status)) {
         res.redirect(
-          "https://id.preview.digitalleman.com/fr?r=calendar.digitalleman.com%2Fchataigniers"
+          "https://id.digitalleman.com/fr?r=calendar.digitalleman.com%2Fchataigniers"
         );
       }
       res.status(error.response.status);
@@ -326,7 +326,7 @@ app.post("/chataigniers", (req, res) => {
     .catch((error) => {
       if ([401, 403].includes(error.response.status)) {
         res.redirect(
-          "https://id.preview.digitalleman.com/fr?r=calendar.digitalleman.com%2Fchataigniers"
+          "https://id.digitalleman.com/fr?r=calendar.digitalleman.com%2Fchataigniers"
         );
       }
       res.status(error.response.status);
