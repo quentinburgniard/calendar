@@ -6,7 +6,8 @@ import morgan from "morgan";
 import qs from "qs";
 
 const app = express();
-const port = 80;
+const port = process.env.PORT ?? 80;
+const API_BASE_URL = process.env.API_BASE_URL;
 
 app.disable("x-powered-by");
 app.set("view cache", false);
@@ -33,7 +34,7 @@ app.use((req, _, next) => {
   next();
 });
 
-app.get("/bda28174a0c5d13e671c.ics", (_, res) => {
+app.get("/chataigniers.ics", (req, res) => {
   const params = {
     pagination: {
       pageSize: 365,
@@ -42,18 +43,12 @@ app.get("/bda28174a0c5d13e671c.ics", (_, res) => {
   };
 
   axios
-    .get(
-      "https://api.preview.digitalleman.com/v5/events?" + qs.stringify(params),
-      {
-        headers: {
-          authorization: `Bearer ${process.env.API_KEY}`,
-        },
-      }
-    )
+    .get(`${API_BASE_URL}/events?${qs.stringify(params)}`, {
+      headers: {
+        authorization: `Bearer ${req.query.t ?? ""}`,
+      },
+    })
     .then(({ data }) => {
-      res.set({
-        "content-type": "text/calendar",
-      });
       let events = data.data.map((event) => {
         event.date = {
           endDate: new Date(event.endDate),
@@ -65,12 +60,14 @@ app.get("/bda28174a0c5d13e671c.ics", (_, res) => {
         return event;
       });
 
+      res.set({
+        "content-type": "text/calendar",
+      });
       res.render("ics", {
         events: events,
       });
     })
     .catch((error) => {
-      console.log(error);
       res.status(error.response.status);
       res.send();
     });
@@ -115,14 +112,11 @@ app.get("/chataigniers", (req, res) => {
   };
 
   axios
-    .get(
-      "https://api.preview.digitalleman.com/v5/events?" + qs.stringify(params),
-      {
-        headers: {
-          authorization: `Bearer ${req.token}`,
-        },
-      }
-    )
+    .get(`${API_BASE_URL}/events?${qs.stringify(params)}`, {
+      headers: {
+        authorization: `Bearer ${req.token}`,
+      },
+    })
     .then(({ data }) => {
       let days = getDays(startDate, endDate);
       let events = data.data.map((event) => {
@@ -137,7 +131,7 @@ app.get("/chataigniers", (req, res) => {
           dayEnd.setHours(23, 59, 59, 999);
           return (
             events.filter(
-              (event) => event.startDate >= day && event.endDate <= dayEnd
+              (event) => event.startDate >= day && event.endDate <= dayEnd,
             ).length == 0
           );
         });
@@ -160,7 +154,7 @@ app.get("/chataigniers", (req, res) => {
     .catch((error) => {
       if ([401, 403].includes(error.response.status)) {
         res.redirect(
-          "https://id.digitalleman.com/fr?r=calendar.digitalleman.com%2Fchataigniers"
+          "https://id.digitalleman.com/fr?r=calendar.digitalleman.com%2Fchataigniers",
         );
       }
       res.status(error.response.status);
@@ -193,14 +187,11 @@ app.get("/chataigniers/new", (req, res) => {
   };
 
   axios
-    .get(
-      "https://api.preview.digitalleman.com/v5/events?" + qs.stringify(params),
-      {
-        headers: {
-          authorization: `Bearer ${req.token}`,
-        },
-      }
-    )
+    .get(`${API_BASE_URL}/events?${qs.stringify(params)}`, {
+      headers: {
+        authorization: `Bearer ${req.token}`,
+      },
+    })
     .then((response) => {
       let days = getDays(startDate, endDate);
       let events = response.data.data.map((event) => {
@@ -232,7 +223,7 @@ app.get("/chataigniers/new", (req, res) => {
     .catch((error) => {
       if ([401, 403].includes(error.response.status)) {
         res.redirect(
-          "https://id.digitalleman.com/fr?r=calendar.digitalleman.com%2Fchataigniers"
+          "https://id.digitalleman.com/fr?r=calendar.digitalleman.com%2Fchataigniers",
         );
       }
       res.status(error.response.status);
@@ -291,13 +282,13 @@ app.post("/chataigniers", (req, res) => {
 
   axios
     .post(
-      "https://api.preview.digitalleman.com/v5/events",
+      `${API_BASE_URL}/events`,
       { data: event },
       {
         headers: {
           authorization: `Bearer ${req.token}`,
         },
-      }
+      },
     )
     .then((response) => {
       if (req.query.response == "json") {
@@ -326,7 +317,7 @@ app.post("/chataigniers", (req, res) => {
     .catch((error) => {
       if ([401, 403].includes(error.response.status)) {
         res.redirect(
-          "https://id.digitalleman.com/fr?r=calendar.digitalleman.com%2Fchataigniers"
+          "https://id.digitalleman.com/fr?r=calendar.digitalleman.com%2Fchataigniers",
         );
       }
       res.status(error.response.status);
@@ -385,13 +376,13 @@ app.put("/chataigniers/:id", (req, res) => {
 
   axios
     .put(
-      `https://api.preview.digitalleman.com/v5/events/${req.params.id}`,
+      `${API_BASE_URL}/events/${req.params.id}`,
       { data: event },
       {
         headers: {
           authorization: `Bearer ${req.token}`,
         },
-      }
+      },
     )
     .then((response) => {
       res.status(response.status);

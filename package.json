@@ -14,7 +14,7 @@
   "name": "private",
   "private": true,
   "scripts": {
-    "develop": "TZ=Europe/Paris nodemon",
+    "develop": "TZ=Europe/Paris nodemon --exec \"node --env-file=.env\" index.js",
     "start": "TZ=Europe/Paris node index.js"
   },
   "type": "module"
