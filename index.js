@@ -34,7 +34,7 @@ app.use((req, _, next) => {
   next();
 });
 
-app.get("/chataigniers.ics", (req, res) => {
+app.get("/ics/chataigniers/:token", (req, res) => {
   const params = {
     pagination: {
       pageSize: 365,
@@ -45,7 +45,7 @@ app.get("/chataigniers.ics", (req, res) => {
   axios
     .get(`${API_BASE_URL}/events?${qs.stringify(params)}`, {
       headers: {
-        authorization: `Bearer ${req.query.t ?? ""}`,
+        authorization: `Bearer ${req.params.token}`,
       },
     })
     .then(({ data }) => {
